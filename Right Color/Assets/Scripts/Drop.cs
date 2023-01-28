@@ -4,59 +4,47 @@ using UnityEngine;
 
 public class Drop : MonoBehaviour
 {
-    public bool right;
-    public string color;
-
+    private bool isRight;
     private GameManager gameManager;
 
     void Start()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
+
     private void Update()
     {
         if(transform.position.y<-10)
         {
-            if (right)
+            if (isRight)
             {
-                gameManager.Balls(-1);
+                gameManager.ChangeScore(-1);
             }
             else
             {
-                gameManager.Balls(1);
+                gameManager.ChangeScore(1);
             }
             Destroy(gameObject);
         }
     }
-    public void SetColor(Material materialColor, bool rightTemp)
+
+    public void SetColor(Material materialColor, bool isRight)
     {
-        color = materialColor.name;
-        right = rightTemp;
+        this.isRight = isRight;
         GetComponent<Renderer>().material = materialColor;         
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && right)
+        if (other.CompareTag("Player"))
         {
-            gameManager.Balls(-1);
+            gameManager.ChangeScore(isRight?-1:1);
             Destroy(gameObject);
         }
-        else if (other.CompareTag("Player") && !right)
+        else if (other.CompareTag("Platform"))
         {
-            gameManager.Balls(1);
+            gameManager.ChangeScore(isRight?1:-1);
             Destroy(gameObject);
-        }
-        else if (other.CompareTag("Platform") && right)
-        {
-            gameManager.Balls(1);
-            Destroy(gameObject);
-        }
-        else if (other.CompareTag("Platform") && !right)
-        {
-            gameManager.Balls(-1);
-            Destroy(gameObject);
-        }
-        
+        }        
     }
 }

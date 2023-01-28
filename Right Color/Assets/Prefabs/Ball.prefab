@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1235428519535324742}
   - component: {fileID: 1235428519535324741}
   m_Layer: 0
-  m_Name: Drop
+  m_Name: Ball
   m_TagString: Drop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

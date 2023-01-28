@@ -4,53 +4,64 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] GameObject drop;
-    [SerializeField] Material[] materials;
-    [SerializeField] string[] colors;
+    [SerializeField] private GameObject drop;
+    [SerializeField] private Material[] materials;
+    [SerializeField] private float startSpawnRate=3.0f;
 
-    private GameObject[] dropPositions;
+    private Platform[] platforms;
     private GameManager gameManager;
-    private int difficultyTemp;
-    private float spawnRate=3.0f;
+    private int difficulty;
+    private float spawnRate;
+    
 
-    void Start()
+    void Awake()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        dropPositions = GameObject.FindGameObjectsWithTag("Platform");
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+        platforms = GameObject.FindObjectsOfType<Platform>();
+        spawnRate=startSpawnRate;
     }
 
     public void Restart()
     {
-
-        difficultyTemp = 0;
-        spawnRate = 3.0f;
-        foreach (GameObject temp in dropPositions)
-        {
-            temp.GetComponent<Platform>().SetColor(materials[Random.Range(0, materials.Length)]);
-        }
-        Invoke("SpawnDrop", spawnRate);
+        difficulty = 0;
+        spawnRate = startSpawnRate;
+        ReplacePlatforms();
+        Invoke("ChangeDifficulty", spawnRate);
     }
 
-    void SpawnDrop()
+    private void ChangeDifficulty()
     {
-        GameObject randomDrop = dropPositions[Random.Range(0, dropPositions.Length)];
-        Material randomColor = materials[Random.Range(0, materials.Length)];
-        bool right = false;
-        if (randomDrop.GetComponent<Platform>().color== randomColor.name)
+        difficulty++;
+        if(difficulty>=10 && spawnRate>0.5f)
         {
-            right = true;
-        }
-        Instantiate(drop, randomDrop.transform.position+Vector3.up*20, randomDrop.transform.rotation).GetComponent<Drop>().SetColor(randomColor,right);
-        difficultyTemp++;
-        if(difficultyTemp>=10 &&spawnRate>0.1f)
-        {
-            difficultyTemp = 0;
-            gameManager.difficulty++;
+            difficulty = 0;
+            ReplacePlatforms();            
+            gameManager.ChangeDifficulty(1);
             spawnRate += - 0.1f;          
         }
+        
+        SpawnDrop();
+
         if(gameManager.inGame)
         {
-            Invoke("SpawnDrop", spawnRate);
-        }        
+            Invoke("ChangeDifficulty", spawnRate);
+        } 
+    }
+
+    private void ReplacePlatforms()
+    {
+        foreach (Platform i in platforms)
+        {
+            i.SetColor(materials[Random.Range(0, materials.Length)]);
+        }
+    }
+
+    private void SpawnDrop()
+    {       
+        Platform randomPlatform = platforms[Random.Range(0, platforms.Length)];
+        Material randomColor = materials[Random.Range(0, materials.Length)];
+
+        bool isSameColor= randomPlatform.GetComponent<MeshRenderer>().material.name.Contains(randomColor.name)?true:false;
+        Instantiate(drop, randomPlatform.transform.position+Vector3.up*20, randomPlatform.transform.rotation).GetComponent<Drop>().SetColor(randomColor,isSameColor);
     }
 }
