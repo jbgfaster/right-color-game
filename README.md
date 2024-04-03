@@ -1,6 +1,8 @@
-# farm-prototype
-game about fast choosing right color
+# right-color-game
+Game about fast choosing right color.
 
+React quickly to falling balls to determine their color.
+W/A/S/D - control.
 
-Default render pipeline
-Unity Editor version 2020.3.30f1 https://unity3d.com/get-unity/download/archive
+made by Kosan in 2022
+fixed in 2024

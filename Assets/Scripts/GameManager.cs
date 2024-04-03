@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,13 +16,14 @@ public class GameManager : MonoBehaviour
     private int difficulty = 0;
     private int score = 0;
     private int lives = 3;
-    public bool inGame;
+    private bool inGame;
 
-    private SpawnManager spawnManager;
+    private Spawner spawnManager;
+
 
     void Start()
     {
-        spawnManager = GameObject.FindObjectOfType<SpawnManager>();
+        spawnManager = GameObject.FindObjectOfType<Spawner>();
         Physics.gravity = new Vector3(0, -20.0F, 0);
         titleScreen.SetActive(true);
         restartScreen.SetActive(false);
@@ -34,8 +34,13 @@ public class GameManager : MonoBehaviour
 
     public void ChangeDifficulty(int temp)
     {
-        difficulty+=temp;
+        difficulty += temp;
         UpdateUI();
+    }
+
+    public bool InGame()
+    {
+        return inGame;
     }
 
     public void ChangeScore(int temp)
@@ -43,7 +48,7 @@ public class GameManager : MonoBehaviour
         if(temp>0)
         {
             score += temp;
-            if(score%10==0)
+            if(score%10 == 0)
             {
                 ChangeLives(1);
             }
@@ -52,6 +57,7 @@ public class GameManager : MonoBehaviour
         {
             ChangeLives(-1);
         }
+
         UpdateUI();
     }
 
@@ -62,17 +68,24 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
-        UpdateUI();
     }
 
     private void UpdateUI()
     {
-        livesText.text = "Lives : " + lives;
-        count.text = "Score : " + score;
-        difficultyText.text= "Difficulty : " + difficulty;        
+        livesText.text = "LIVES : " + lives;
+        count.text = "SCORE : " + score;
+        difficultyText.text= "LEVEL : " + difficulty;        
     }
 
-    void GameOver()
+    private void StartGame()
+    {
+        helpScreen.SetActive(true);
+        ClearScores();
+        UpdateUI();
+        StartCoroutine(ReStartCoroutine(3));
+    }
+
+    private void GameOver()
     {
         inGame = false;
         spawnManager.CancelInvoke();
@@ -80,19 +93,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void StartGame()
-    {
-        helpScreen.SetActive(true);
-        ClearScores();
-        UpdateUI();
-        StartCoroutine("StartCoroutine", 3);
-    }
-
     private void RestartGame()
     {
         ClearScores();
         UpdateUI();
-        StartCoroutine("StartCoroutine", 1);
+        StartCoroutine(ReStartCoroutine(1));
     }
 
     private void ClearScores()
@@ -102,7 +107,7 @@ public class GameManager : MonoBehaviour
         score = 0;
     }
 
-    private IEnumerator StartCoroutine(float time)
+    private IEnumerator ReStartCoroutine(float time)
     {       
         titleScreen.SetActive(false);        
         restartScreen.SetActive(false);

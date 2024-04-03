@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform : MonoBehaviour
+public class Platform : MonoBehaviour, ISetColor
 {
-    public void SetColor(Material materialColor)
+    private void SetColor(Material materialColor)
     {
         GetComponent<Renderer>().material = materialColor;
+    }
+
+    public void SetColor(Material materialColor, bool value = true)
+    {
+        SetColor(materialColor);
     }
 }
 
