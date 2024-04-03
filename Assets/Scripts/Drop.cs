@@ -1,28 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Drop : MonoBehaviour
+public class Drop : MonoBehaviour, ISetColor, IEventInt
 {
-    private bool isRight;
-    private GameManager gameManager;
+    public CustomEventInt DestroyEvent;
 
-    void Start()
+    private bool isRight;
+
+
+    void Update()
     {
-        gameManager = GameObject.FindObjectOfType<GameManager>();
+        TouchGround();
     }
 
-    private void Update()
+    private void TouchGround()
     {
-        if(transform.position.y<-10)
+        if(transform.position.y < -10)
         {
             if (isRight)
             {
-                gameManager.ChangeScore(-1);
+                DestroyEvent.Invoke(-1);
             }
             else
             {
-                gameManager.ChangeScore(1);
+                DestroyEvent.Invoke(1);
             }
             Destroy(gameObject);
         }
@@ -30,21 +30,31 @@ public class Drop : MonoBehaviour
 
     public void SetColor(Material materialColor, bool isRight)
     {
+        _SetColor(materialColor, isRight);
+    }
+
+    private void _SetColor(Material materialColor, bool isRight)
+    {
         this.isRight = isRight;
         GetComponent<Renderer>().material = materialColor;         
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            gameManager.ChangeScore(isRight?-1:1);
+            DestroyEvent.Invoke(isRight?-1:1);
             Destroy(gameObject);
         }
         else if (other.CompareTag("Platform"))
         {
-            gameManager.ChangeScore(isRight?1:-1);
+            DestroyEvent.Invoke(isRight?1:-1);
             Destroy(gameObject);
         }        
+    }
+
+    public CustomEventInt GetDestroyEvent()
+    {
+        return DestroyEvent;
     }
 }

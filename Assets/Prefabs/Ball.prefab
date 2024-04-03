@@ -52,7 +52,7 @@ MeshRenderer:
   m_GameObject: {fileID: 1235428519535324744}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -109,12 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9cd72af22097694d8f82a334edfb55e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: red
-  right: 0
-  materials:
-  - {fileID: 2100000, guid: ed9bf8313b6b73c4789576a4ff05a4d2, type: 2}
-  - {fileID: 2100000, guid: 7018ac0e6222a0b4a8358e36ababa96a, type: 2}
-  - {fileID: 2100000, guid: 2ba1246bad718be4987694e44cc2495a, type: 2}
 --- !u!54 &1235428519535324741
 Rigidbody:
   m_ObjectHideFlags: 0

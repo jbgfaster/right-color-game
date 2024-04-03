@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float speed = 10.0f;
-    [SerializeField] int boundsX;
-    [SerializeField] int boundsZ;
-    [SerializeField] GameObject currentCamera;    
+    [SerializeField] private float speed = 10.0f;
+    [SerializeField] private int boundsX;
+    [SerializeField] private int boundsZ;
+    [SerializeField] private GameObject currentCamera;    
 
     private Vector3 cameraStartPos;
 
@@ -18,20 +16,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        currentCamera.transform.position=gameObject.transform.position+cameraStartPos;
-        Move();
-        StopByBonds();
+        currentCamera.transform.position = gameObject.transform.position + cameraStartPos;
+        Move();        
     }
 
     private void Move()
     {
-        transform.Translate(speed*Time.deltaTime * Vector3.forward*Input.GetAxis("Vertical"));
-        transform.Translate(speed*Time.deltaTime* Vector3.right * Input.GetAxis("Horizontal"));
+        transform.Translate(speed * Time.deltaTime * Vector3.forward * Input.GetAxis("Vertical"));
+        transform.Translate(speed * Time.deltaTime * Vector3.right * Input.GetAxis("Horizontal"));
+
+        StopByBonds();
     }
 
     private void StopByBonds()
     {
-        if (transform.position.x>boundsX)
+        if (transform.position.x > boundsX)
         {
             transform.position = new Vector3(boundsX,transform.position.y,transform.position.z) ;
         }

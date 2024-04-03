@@ -104,7 +104,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4309139337838925458}
-  - component: {fileID: 4309139337838925459}
   - component: {fileID: 4309139337838925456}
   - component: {fileID: 4309139337838925457}
   m_Layer: 0
@@ -133,20 +132,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4309139337838925459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4309139337838925461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23ac8d9e0f1d21044ab42710ee10b3ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CounterText: {fileID: 0}
-  Count: 0
 --- !u!65 &4309139337838925456
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -172,10 +157,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbcbbe7cb693a984fb04ff1c0c519946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentCamera: {fileID: 0}
   speed: 15
   boundsX: 10
   boundsZ: 10
+  currentCamera: {fileID: 0}
 --- !u!1 &4309139338128966018
 GameObject:
   m_ObjectHideFlags: 0
